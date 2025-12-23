@@ -2,13 +2,13 @@ import { Maximize2, Minimize2 } from "lucide-react";
 
 interface ChatProps {
     title: string
-    content: string
+    conversation: Array<string>
     isMaximized: boolean
     setIsMaximized: (v: boolean) => void
 }
 
 
-export default function Chat({ title, content, isMaximized, setIsMaximized }: ChatProps) {
+export default function Chat({ title, conversation, isMaximized, setIsMaximized }: ChatProps) {
     return (
         <div className="flex flex-col h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl rounded-xl overflow-hidden">
             <div className="drag-handle p-3 bg-zinc-50 dark:bg-zinc-800 border-b dark:border-zinc-700 flex justify-between items-center cursor-grab active:cursor-grabbing">
@@ -21,9 +21,36 @@ export default function Chat({ title, content, isMaximized, setIsMaximized }: Ch
                 </button>
             </div>
 
-            <div className="flex-1 p-4 overflow-y-auto">
-                <p className="text-sm text-zinc-500">{content}</p>
+            <div className="flex-1 p-4 overflow-y-auto space-y-2 
+                [&::-webkit-scrollbar]:w-2.5 mr-1 my-1
+                
+                [&::-webkit-scrollbar-thumb]:rounded-full
+                [&::-webkit-scrollbar-thumb]:bg-zinc-300
+                dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700
+                
+                [&::-webkit-scrollbar-track]:bg-transparent">
+                {conversation.map((c, i) => {
+                    const isUser = i % 2 === 0
+
+                    return (
+                        <div
+                            key={i}
+                            className={`flex ${isUser ? "justify-end" : "justify-start"}`}
+                        >
+                            <div
+                                className={`max-w-[100%] px-3 py-2 text-sm rounded-lg
+                                    ${isUser
+                                        ? "bg-blue-500 text-white rounded-br-none"
+                                        : "bg-transparent text-zinc-700 dark:text-zinc-300 mb-3"
+                                    }`}
+                            >
+                                {c}
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
+
 
             <div className="p-3 border-t dark:border-zinc-800">
                 <input

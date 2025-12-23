@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 import { Rnd } from "react-rnd";
 import Chat from "./chat";
 
-const DEFAULT_WIDTH = 800;
+const DEFAULT_WIDTH = 700;
 const DEFAULT_HEIGHT = 500;
 
 export default function Workspace() {
@@ -58,23 +59,6 @@ export default function Workspace() {
     }, []);
 
 
-    // const chatContent = (
-    //     <div className="flex flex-col h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl rounded-xl overflow-hidden">
-    //         <div className="drag-handle p-3 bg-zinc-50 dark:bg-zinc-800 border-b dark:border-zinc-700 flex justify-between items-center cursor-grab active:cursor-grabbing">
-    //             <span className="text-sm font-medium">Main Chat</span>
-    //             <button onClick={() => setIsMaximized(!isMaximized)} className="p-1 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded transition-colors">
-    //                 {isMaximized ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-    //             </button>
-    //         </div>
-    //         <div className="flex-1 p-4 overflow-y-auto">
-    //             <p className="text-sm text-zinc-500">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil fugit distinctio eligendi, voluptatibus rem molestiae laudantium. Beatae dolorem dolor pariatur at asperiores vitae perferendis earum, quae reprehenderit natus quo totam!</p>
-    //         </div>
-    //         <div className="p-3 border-t dark:border-zinc-800">
-    //             <input className="w-full text-sm p-2 bg-zinc-100 dark:bg-zinc-800 rounded outline-none" placeholder="Message..." />
-    //         </div>
-    //     </div>
-    // );
-
     return (
         <div
             className="relative w-full h-full overflow-hidden bg-zinc-100 dark:bg-zinc-950"
@@ -102,7 +86,7 @@ export default function Workspace() {
                             minHeight={300}
                             scale={scale}
                         >
-                            <Chat title="Main Chat" content="main content" isMaximized={isMaximized} setIsMaximized={setIsMaximized}/>
+                            <Chat title="Main Chat" conversation={["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
                         </Rnd>
                     </div>
                 </div>
@@ -111,7 +95,7 @@ export default function Workspace() {
             {/* --- MAXIMIZED VIEW --- */}
             {isMaximized && (
                 <div className="fixed inset-4 z-[100] animate-in zoom-in-95 duration-200">
-                    <Chat title="Main Chat" content="main content" isMaximized={isMaximized} setIsMaximized={setIsMaximized}/>
+                    <Chat title="Main Chat" conversation={["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
                 </div>
             )}
 
