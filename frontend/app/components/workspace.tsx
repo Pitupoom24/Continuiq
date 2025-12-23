@@ -69,33 +69,55 @@ export default function Workspace() {
             }}
         >
             {/* --- IN-WORKSPACE VIEW --- */}
-            {!isMaximized && (
-                <div
-                    className="absolute inset-0 transition-transform duration-75 ease-out"
-                    style={{
-                        transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
-                        transformOrigin: "center"
-                    }}
-                >
+            <div
+                className="absolute inset-0 transition-transform duration-75 ease-out"
+                style={{
+                    transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+                    transformOrigin: "center"
+                }}
+            >
 
-                    <div className="absolute top-1/2 left-1/2 w-0 h-0">
-                        <Rnd
-                            dragHandleClassName="drag-handle"
-                            default={{ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT, x: -DEFAULT_WIDTH / 2, y: -DEFAULT_HEIGHT / 2 }}
-                            minWidth={300}
-                            minHeight={300}
-                            scale={scale}
-                        >
-                            <Chat title="Main Chat" conversation={["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
-                        </Rnd>
-                    </div>
+                <div className="absolute top-1/2 left-1/2 w-0 h-0">
+                    <Rnd
+                        dragHandleClassName="drag-handle"
+                        default={{ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT, x: -DEFAULT_WIDTH / 2, y: -DEFAULT_HEIGHT / 2 }}
+                        minWidth={300}
+                        minHeight={50}
+                        scale={scale}
+                    >
+                        <Chat title="Main Chat" conversation={["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
+                    </Rnd>
                 </div>
-            )}
+
+
+                <div className="absolute top-1/2 left-1/2 w-0 h-0">
+                    <Rnd
+                        dragHandleClassName="drag-handle"
+                        default={{ width: 180, height: 50, x: -DEFAULT_WIDTH / 2 - 190, y: -DEFAULT_HEIGHT / 2 }}
+                        minWidth={180}
+                        minHeight={50}
+                        scale={scale}
+                    >
+                        <Chat title="Secondary Chat" conversation={[
+                            "Why use Tailwind CSS?",
+                            "Tailwind CSS works by scanning all of your HTML files, JavaScript components, and any other templates for class names, generating the corresponding styles and then writing them to a static CSS file. It's fast, flexible, and reliable with zero runtime.",
+                            "Doesn't it make the HTML messy?",
+                            "While it can look 'busy' at first, it prevents the 'CSS append-only' problem where stylesheets grow forever because developers are afraid to delete old classes. With Tailwind, you styling is tied directly to the markup, making maintenance much safer.",
+                            "Can I use it with any framework?",
+                            "Yes! Tailwind is a PostCSS plugin, so it works seamlessly with Next.js, Vite, Laravel, Remix, and even plain HTML/CSS projects."
+                        ]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
+                    </Rnd>
+                </div>
+
+
+            </div>
 
             {/* --- MAXIMIZED VIEW --- */}
             {isMaximized && (
-                <div className="fixed inset-4 z-[100] animate-in zoom-in-95 duration-200">
-                    <Chat title="Main Chat" conversation={["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
+                <div className="fixed inset-0 z-99 bg-black/20 backdrop-blur-sm flex items-center justify-center">
+                    <div className="h-10/12 fixed mx-45 z-100 animate-in zoom-in-95 duration-200">
+                        <Chat title="Main Chat" conversation={["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
+                    </div>
                 </div>
             )}
 

@@ -12,7 +12,7 @@ export default function Chat({ title, conversation, isMaximized, setIsMaximized 
     return (
         <div className="flex flex-col h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl rounded-xl overflow-hidden">
             <div className="drag-handle p-3 bg-zinc-50 dark:bg-zinc-800 border-b dark:border-zinc-700 flex justify-between items-center cursor-grab active:cursor-grabbing">
-                <span className="text-sm font-medium">{title}</span>
+                <span className="text-sm font-medium truncate">{title}</span>
                 <button
                     onClick={() => setIsMaximized(!isMaximized)}
                     className="p-1 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded transition-colors"
