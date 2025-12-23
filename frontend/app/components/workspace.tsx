@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Maximize2, Minimize2 } from "lucide-react";
 import { Rnd } from "react-rnd";
+
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 500;
+
 export default function Workspace() {
     const [offset, setOffset] = useState({ x: 0, y: 0 });
     const [scale, setScale] = useState(1);
@@ -11,13 +13,7 @@ export default function Workspace() {
     const [isCtrlPressd, setIsCtrlPressd] = useState(false);
     const [isMaximized, setIsMaximized] = useState(false);
 
-    // Initial position: Negative half of width/height relative to the center pivot
-    const [chatPos, setChatPos] = useState({
-        x: -(DEFAULT_WIDTH / 2),
-        y: -(DEFAULT_HEIGHT / 2)
-    });
-
-    // --- All useEffects (Panning, Zooming, Ctrl Key) remain exactly the same as your previous code ---
+    // Panning
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isPanning) {
@@ -35,6 +31,7 @@ export default function Workspace() {
         };
     }, [isPanning]);
 
+    // Zooming
     useEffect(() => {
         const handleWheel = (e: WheelEvent) => {
             if (e.ctrlKey) {
@@ -48,6 +45,7 @@ export default function Workspace() {
         return () => window.removeEventListener("wheel", handleWheel);
     }, []);
 
+    // Ctrl
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => { if (e.key === "Control") setIsCtrlPressd(true); }
         const handleKeyUp = (e: KeyboardEvent) => { if (e.key === "Control") setIsCtrlPressd(false); }
@@ -95,17 +93,11 @@ export default function Workspace() {
                         transformOrigin: "center"
                     }}
                 >
-                    {/* 
-                    PIVOT POINT: 
-                    This div is 0x0 and pinned to the exact center of the workspace.
-                    Everything inside is now relative to the center of the screen.
-                */}
+
                     <div className="absolute top-1/2 left-1/2 w-0 h-0">
                         <Rnd
                             dragHandleClassName="drag-handle"
-                            position={chatPos}
-                            onDragStop={(e, d) => setChatPos({ x: d.x, y: d.y })}
-                            size={{ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT }}
+                            default={{ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT, x: -DEFAULT_WIDTH / 2, y: -DEFAULT_HEIGHT / 2 }}
                             minWidth={300}
                             minHeight={300}
                             scale={scale}
@@ -122,6 +114,13 @@ export default function Workspace() {
                     {chatContent}
                 </div>
             )}
+
+
+            {/* Zoom / Pan Status Indicator (Optional UI) */}
+            <div className="fixed bottom-4 right-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur px-3 py-1 rounded-full text-xs font-mono border dark:border-zinc-800">
+                Zoom: {Math.round(scale * 100)}% | Pan: {offset.x}, {offset.y}
+            </div>
+
         </div>
     );
 }
