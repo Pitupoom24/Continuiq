@@ -12,7 +12,55 @@ export default function Workspace() {
     const [scale, setScale] = useState(1);
     const [isPanning, setIsPanning] = useState(false);
     const [isCtrlPressd, setIsCtrlPressd] = useState(false);
-    const [isMaximized, setIsMaximized] = useState(false);
+
+    const [maximizedId, setMaximizedId] = useState<string | null>(null);
+    const [chats, setChats] = useState([
+        {
+            id: "chat_1",
+            title: "Main Chat",
+            width: DEFAULT_WIDTH,
+            height: DEFAULT_HEIGHT,
+            x: -DEFAULT_WIDTH / 2,
+            y: -DEFAULT_HEIGHT / 2,
+            conversation: ["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]
+
+        },
+        {
+            id: "chat_2",
+            title: "Secondary Chat",
+            width: 300,
+            height: 400,
+            x: -DEFAULT_WIDTH / 2 - 320,
+            y: -DEFAULT_HEIGHT / 2,
+            conversation: [
+                "What is Meta?",
+                "Meta Platforms, Inc. is a multinational technology company formerly known as Facebook. It focuses on building social platforms and technologies that help people connect, including Facebook, Instagram, WhatsApp, and Messenger, as well as virtual and augmented reality products.",
+                "Why did Facebook rebrand to Meta?",
+                "Facebook rebranded to Meta to reflect its long-term vision of building the metaverse — a shared digital space that blends physical and virtual reality. The new name represents a shift beyond social media toward immersive technologies like VR and AR.",
+                "What is the Metaverse?",
+                "The metaverse is a network of interconnected virtual environments where people can socialize, work, play, and create using digital avatars. Meta is developing the metaverse through technologies such as virtual reality (Meta Quest), augmented reality, AI, and real-time 3D experiences."
+            ]
+        },
+        {
+            id: "chat_3",
+            title: "Secondary Chat",
+            width: 300,
+            height: 400,
+            x: DEFAULT_WIDTH / 2 + 20,
+            y: -DEFAULT_HEIGHT / 2,
+            conversation: [
+                "What is the DOM?",
+                "The DOM (Document Object Model) is a programming interface that represents a web page as a tree of objects. It allows JavaScript to read, modify, and update HTML and CSS dynamically, enabling interactive and responsive user interfaces.",
+                "Why is the DOM important?",
+                "The DOM is essential because it acts as the bridge between web content and code. Without the DOM, JavaScript wouldn’t be able to update pages in real time, making modern web applications like Facebook and Instagram impossible.",
+                "How does Meta handle DOM performance?",
+                "At Meta’s scale, directly manipulating the DOM would be too slow. To solve this, Meta introduced the Virtual DOM concept through React, which efficiently calculates changes and updates only the necessary parts of the real DOM, resulting in fast, smooth user experiences."
+            ]
+        }
+    ]);
+
+    // Find the data for the chat that is currently maximized
+    const maximizedChat = chats.find(c => c.id === maximizedId);
 
     // Panning
     useEffect(() => {
@@ -59,14 +107,14 @@ export default function Workspace() {
     }, []);
 
 
+
+
+
     return (
         <div
             className="relative w-full h-full overflow-hidden bg-zinc-100 dark:bg-zinc-950"
             onMouseDown={(e) => { if (e.ctrlKey) { setIsPanning(true); e.preventDefault(); } }}
-            style={{
-                cursor: isPanning ? 'grabbing' : isCtrlPressd ? 'grab' : 'auto',
-                userSelect: isPanning ? 'none' : 'auto',
-            }}
+            style={{ cursor: isPanning ? 'grabbing' : isCtrlPressd ? 'grab' : 'auto', userSelect: isPanning ? 'none' : 'auto' }}
         >
             {/* --- IN-WORKSPACE VIEW --- */}
             <div
@@ -76,57 +124,49 @@ export default function Workspace() {
                     transformOrigin: "center"
                 }}
             >
-
-                <div className="absolute top-1/2 left-1/2 w-0 h-0">
-                    <Rnd
-                        dragHandleClassName="drag-handle"
-                        default={{ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT, x: -DEFAULT_WIDTH / 2, y: -DEFAULT_HEIGHT / 2 }}
-                        minWidth={300}
-                        minHeight={50}
-                        scale={scale}
-                    >
-                        <Chat title="Main Chat" conversation={["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
-                    </Rnd>
-                </div>
-
-
-                <div className="absolute top-1/2 left-1/2 w-0 h-0">
-                    <Rnd
-                        dragHandleClassName="drag-handle"
-                        default={{ width: 180, height: 50, x: -DEFAULT_WIDTH / 2 - 190, y: -DEFAULT_HEIGHT / 2 }}
-                        minWidth={180}
-                        minHeight={50}
-                        scale={scale}
-                    >
-                        <Chat title="Secondary Chat" conversation={[
-                            "Why use Tailwind CSS?",
-                            "Tailwind CSS works by scanning all of your HTML files, JavaScript components, and any other templates for class names, generating the corresponding styles and then writing them to a static CSS file. It's fast, flexible, and reliable with zero runtime.",
-                            "Doesn't it make the HTML messy?",
-                            "While it can look 'busy' at first, it prevents the 'CSS append-only' problem where stylesheets grow forever because developers are afraid to delete old classes. With Tailwind, you styling is tied directly to the markup, making maintenance much safer.",
-                            "Can I use it with any framework?",
-                            "Yes! Tailwind is a PostCSS plugin, so it works seamlessly with Next.js, Vite, Laravel, Remix, and even plain HTML/CSS projects."
-                        ]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
-                    </Rnd>
-                </div>
-
-
+                {chats.map((chat) => (
+                    <div key={chat.id} className="absolute top-1/2 left-1/2 w-0 h-0">
+                        <Rnd
+                            dragHandleClassName="drag-handle"
+                            default={{
+                                width: chat.width,
+                                height: chat.height,
+                                x: chat.x,
+                                y: chat.y
+                            }}
+                            minWidth={200}
+                            minHeight={50}
+                            scale={scale}
+                        >
+                            <Chat
+                                title={chat.title}
+                                conversation={chat.conversation}
+                                isMaximized={maximizedId === chat.id}
+                                setIsMaximized={(val) => setMaximizedId(val ? chat.id : null)}
+                            />
+                        </Rnd>
+                    </div>
+                ))}
             </div>
 
-            {/* --- MAXIMIZED VIEW --- */}
-            {isMaximized && (
-                <div className="fixed inset-0 z-99 bg-black/20 backdrop-blur-sm flex items-center justify-center">
-                    <div className="h-10/12 fixed mx-45 z-100 animate-in zoom-in-95 duration-200">
-                        <Chat title="Main Chat" conversation={["What's React.JS", "React is a free and open-source front-end JavaScript library for building user interfaces (UIs) based on a component architecture. It is maintained by Meta (formerly Facebook) and a large community of developers.", "Why is it popular", "React.js is popular due to a combination of its technical advantages, robust ecosystem, ease of learning, and strong backing by Meta and other industry giants. These factors contribute to a faster, more efficient development process and superior application performance.", "What's Virtual DOM?", "Virtual DOM (Document Object Model) To optimize performance, React uses a virtual representation of the actual DOM. When data changes, React calculates the most efficient way to update the real DOM and applies only the necessary changes, rather than re-rendering the entire page. This results in lightning-fast, smooth, and responsive user experiences, especially in dynamic applications."]} isMaximized={isMaximized} setIsMaximized={setIsMaximized} />
+            {/* --- REFACTORED MAXIMIZED VIEW --- */}
+            {maximizedId && maximizedChat && (
+                <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm flex items-center justify-center p-10">
+                    <div className="w-full max-w-5xl h-[85vh] animate-in zoom-in-95 duration-200">
+                        <Chat
+                            title={maximizedChat.title}
+                            conversation={maximizedChat.conversation}
+                            isMaximized={true}
+                            setIsMaximized={() => setMaximizedId(null)}
+                        />
                     </div>
                 </div>
             )}
 
-
-            {/* Zoom / Pan Status Indicator (Optional UI) */}
+            {/* Status Indicator */}
             <div className="fixed bottom-4 right-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur px-3 py-1 rounded-full text-xs font-mono border dark:border-zinc-800">
-                Zoom: {Math.round(scale * 100)}% | Pan: {offset.x}, {offset.y}
+                Zoom: {Math.round(scale * 100)}% | Chats: {chats.length}
             </div>
-
         </div>
     );
 }
