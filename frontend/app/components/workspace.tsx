@@ -111,22 +111,29 @@ export default function Workspace() {
 
     const updateXarrow = useXarrow();
 
+
+
     // useEffect(() => {
-    //     updateXarrow();
-    // }, [scale]);
+    //     requestAnimationFrame(() => {
+    //         requestAnimationFrame(() => {
+    //             requestAnimationFrame(() => {
+    //                 requestAnimationFrame(() => {
+    //                     requestAnimationFrame(updateXarrow);
+    //                 });
+
+    //             });
+    //         });
+    //     });
+    // }, [scale, offset]);
 
     useEffect(() => {
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        requestAnimationFrame(updateXarrow);
-                    });
-
-                });
+                requestAnimationFrame(updateXarrow);
             });
         });
     }, [scale, offset]);
+
 
 
     return (
@@ -168,14 +175,14 @@ export default function Workspace() {
                             onDrag={updateXarrow}
                             onResize={updateXarrow}
                         >
-                            <div id={chat.id}>
-                                <Chat
-                                    title={chat.title}
-                                    conversation={chat.conversation}
-                                    isMaximized={maximizedId === chat.id}
-                                    setIsMaximized={(val) => setMaximizedId(val ? chat.id : null)}
-                                />
-                            </div>
+                            <Chat
+                                id={chat.id}
+                                title={chat.title}
+                                conversation={chat.conversation}
+                                isMaximized={maximizedId === chat.id}
+                                setIsMaximized={(val) => setMaximizedId(val ? chat.id : null)}
+                            />
+
                         </Rnd>
                     </div>
                 ))}
@@ -188,6 +195,7 @@ export default function Workspace() {
                 <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm flex items-center justify-center p-10">
                     <div className="w-full max-w-5xl h-[85vh] animate-in zoom-in-95 duration-200">
                         <Chat
+                            id={maximizedId}
                             title={maximizedChat.title}
                             conversation={maximizedChat.conversation}
                             isMaximized={true}

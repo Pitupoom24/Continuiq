@@ -1,6 +1,8 @@
 import { Maximize2, Minimize2 } from "lucide-react";
 
 interface ChatProps {
+
+    id: string
     title: string
     conversation: Array<string>
     isMaximized: boolean
@@ -8,9 +10,9 @@ interface ChatProps {
 }
 
 
-export default function Chat({ title, conversation, isMaximized, setIsMaximized }: ChatProps) {
+export default function Chat({ id, title, conversation, isMaximized, setIsMaximized }: ChatProps) {
     return (
-        <div className="flex flex-col h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl rounded-xl overflow-hidden">
+        <div id={id} className="flex flex-col h-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl rounded-xl overflow-hidden">
             <div className="drag-handle p-3 bg-zinc-50 dark:bg-zinc-800 border-b dark:border-zinc-700 flex justify-between items-center cursor-grab active:cursor-grabbing">
                 <span className="text-sm font-medium truncate">{title}</span>
                 <button
