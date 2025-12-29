@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import { Rnd } from "react-rnd";
 import Chat from "./chat";
+import Xarrow, { Xwrapper, useXarrow } from 'react-xarrows';
 
 const DEFAULT_WIDTH = 700;
 const DEFAULT_HEIGHT = 500;
+
 
 export default function Workspace() {
     const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -30,7 +32,7 @@ export default function Workspace() {
             title: "Secondary Chat",
             width: 300,
             height: 400,
-            x: -DEFAULT_WIDTH / 2 - 320,
+            x: -DEFAULT_WIDTH / 2 - 400,
             y: -DEFAULT_HEIGHT / 2,
             conversation: [
                 "What is Meta?",
@@ -46,7 +48,7 @@ export default function Workspace() {
             title: "Secondary Chat",
             width: 300,
             height: 400,
-            x: DEFAULT_WIDTH / 2 + 20,
+            x: DEFAULT_WIDTH / 2 + 100,
             y: -DEFAULT_HEIGHT / 2,
             conversation: [
                 "What is the DOM?",
@@ -107,15 +109,39 @@ export default function Workspace() {
     }, []);
 
 
+    const updateXarrow = useXarrow();
 
+    // useEffect(() => {
+    //     updateXarrow();
+    // }, [scale]);
+
+    useEffect(() => {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(updateXarrow);
+                    });
+
+                });
+            });
+        });
+    }, [scale, offset]);
 
 
     return (
+
         <div
             className="relative w-full h-full overflow-hidden bg-zinc-100 dark:bg-zinc-950"
             onMouseDown={(e) => { if (e.ctrlKey) { setIsPanning(true); e.preventDefault(); } }}
             style={{ cursor: isPanning ? 'grabbing' : isCtrlPressd ? 'grab' : 'auto', userSelect: isPanning ? 'none' : 'auto' }}
         >
+
+            <Xwrapper>
+                <Xarrow start="chat_1" end="chat_2" />
+                <Xarrow start="chat_1" end="chat_3" />
+            </Xwrapper>
+
             {/* --- IN-WORKSPACE VIEW --- */}
             <div
                 className="absolute inset-0 transition-transform duration-75 ease-out"
@@ -124,6 +150,8 @@ export default function Workspace() {
                     transformOrigin: "center"
                 }}
             >
+
+
                 {chats.map((chat) => (
                     <div key={chat.id} className="absolute top-1/2 left-1/2 w-0 h-0">
                         <Rnd
@@ -137,16 +165,22 @@ export default function Workspace() {
                             minWidth={200}
                             minHeight={50}
                             scale={scale}
+                            onDrag={updateXarrow}
+                            onResize={updateXarrow}
                         >
-                            <Chat
-                                title={chat.title}
-                                conversation={chat.conversation}
-                                isMaximized={maximizedId === chat.id}
-                                setIsMaximized={(val) => setMaximizedId(val ? chat.id : null)}
-                            />
+                            <div id={chat.id}>
+                                <Chat
+                                    title={chat.title}
+                                    conversation={chat.conversation}
+                                    isMaximized={maximizedId === chat.id}
+                                    setIsMaximized={(val) => setMaximizedId(val ? chat.id : null)}
+                                />
+                            </div>
                         </Rnd>
                     </div>
                 ))}
+
+
             </div>
 
             {/* --- REFACTORED MAXIMIZED VIEW --- */}
@@ -168,5 +202,7 @@ export default function Workspace() {
                 Zoom: {Math.round(scale * 100)}% | Chats: {chats.length}
             </div>
         </div>
+
     );
+
 }
