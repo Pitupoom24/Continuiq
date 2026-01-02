@@ -22,5 +22,6 @@ urlpatterns = [
     # path("polls/", include("polls.urls")),
     path("api/accounts/", include("accounts.urls")),
     path("api/", include("workspaces.urls")),
+    path("api/canvas/", include("canvas.urls")),
     path("admin/", admin.site.urls),
 ]
